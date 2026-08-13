@@ -10,6 +10,7 @@ import org.springframework.boot.resttestclient.autoconfigure.AutoConfigureRestTe
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.client.RestTestClient;
+import org.springframework.test.web.servlet.client.assertj.RestTestClientResponse;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -47,5 +48,21 @@ class CustomerControllerTest {
         assertThat(response).isNotNull();
         assertThat(response.getName()).isEqualTo("alice");
         assertThat(response.getBalance()).isEqualTo(BigDecimal.valueOf(10.0));
+    }
+
+    @Test
+    void getCustomerByName_from_existedCustomer_then_OK_V2() {
+        // Arrange
+        Customer customer = Customer.builder().name("alice").balance(BigDecimal.valueOf(10.0)).build();
+        when(customerRepository.findByName(anyString())).thenReturn(Optional.of(customer));
+
+        // Act
+        var responseSpec = restTestClient.get()
+                .uri("/customers/{name}", "alice").exchange();
+        var response = RestTestClientResponse.from(responseSpec);
+
+        // Assert
+        assertThat(response).hasStatusOk();
+        assertThat(response).bodyJson().extractingPath("$.name").asString().isEqualTo("alice");
     }
 }
