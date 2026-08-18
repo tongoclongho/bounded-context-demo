@@ -30,7 +30,7 @@ class CustomerControllerTest {
     private CustomerRepository customerRepository;
 
     @Test
-    void getCustomerByName_from_existedCustomer_then_OK() {
+    void getCustomerByName_from_existingCustomer_then_OK() {
         // Arrange
         Customer customer = Customer.builder().name("alice").balance(BigDecimal.valueOf(10.0)).build();
         when(customerRepository.findByName(anyString())).thenReturn(Optional.of(customer));
@@ -51,7 +51,7 @@ class CustomerControllerTest {
     }
 
     @Test
-    void getCustomerByName_from_existedCustomer_then_OK_V2() {
+    void getCustomerByName_from_existingCustomer_then_OK_V2() {
         // Arrange
         Customer customer = Customer.builder().name("alice").balance(BigDecimal.valueOf(10.0)).build();
         when(customerRepository.findByName(anyString())).thenReturn(Optional.of(customer));

@@ -22,7 +22,7 @@ class CustomerRepositoryTest {
     private CustomerRepository customerRepository;
 
     @Test
-    void findByName_from_existedCustomer_then_OK() {
+    void findByName_from_existingCustomer_then_OK() {
         // Arrange
         Customer customer = new Customer("Alice", BigDecimal.valueOf(100.0));
         Customer saved = customerRepository.save(customer);
